@@ -292,17 +292,25 @@ installChaincode 3
 ## query whether the chaincode is installed
 queryInstalled 3
 
-## approve the definition for org3
+## approve the definition for org1 org2 and org3
+approveForMyOrg 1
+checkCommitReadiness 1 "\"Org1MSP\": true" "\"Org2MSP\": false" "\"Org3MSP\": false"
+
+approveForMyOrg 2
+checkCommitReadiness 2 "\"Org1MSP\": true" "\"Org2MSP\": true"  "\"Org3MSP\": false"
+
 approveForMyOrg 3
+checkCommitReadiness 3 "\"Org1MSP\": true" "\"Org2MSP\": true"  "\"Org3MSP\": true"
 
 ## check whether the chaincode definition is ready to be committed
 ## expect org1 to have approved and org3 not to
-checkCommitReadiness 3 "\"Org1MSP\": true" "\"Org2MSP\": true" "\"Org3MSP\": true"
 
 ## now that we know for sure both orgs have approved, commit the definition
-commitChaincodeDefinition 3
+commitChaincodeDefinition 1 2 3
 
 ## query on both orgs to see that the definition committed successfully
+queryCommitted 1
+queryCommitted 2
 queryCommitted 3
 
 ## Invoke the chaincode - this does require that the chaincode have the 'initLedger'
